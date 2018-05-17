@@ -3,10 +3,11 @@
 from setuptools import setup
 
 setup(name='PPMSplot',
-      version='1.0',
+      version='0.1',
       description='Plot PPMS dat files',
       author='Matt Griffiths',
       author_email='griff@me3d.com.au',
+      url='https://github.com/Sever0us/PPMSplot',
       install_requires=['matplotlib'],
       lisence='MIT',
       packages=['PPMSplot'],
