@@ -3,14 +3,14 @@
 from setuptools import setup
 
 setup(name='PPMSplot',
-      version='0.1',
+      version='0.1.2',
       description='Plot PPMS dat files',
       author='Matt Griffiths',
       author_email='griff@me3d.com.au',
       url='https://github.com/Sever0us/PPMSplot',
       install_requires=['matplotlib'],
       lisence='MIT',
-      packages=['PPMSplot'],
+      packages=['PPMSplot', 'PPMSplot.generate_config'],
 	  entry_points = {
 	  	'console_scripts': [
                   'PPMSplot=PPMSplot.__main__:main',
