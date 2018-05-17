@@ -1,50 +1,50 @@
 from matplotlib import pyplot as plt
 
 
-def trim(xmin, xmax, columns):
-	# Set up container
-	trimmed = [[] for i in columns]
+def plot(config, file_data):
+    settings = config['plotSettings']
+    fig, axis = plt.subplots(1, 1)
 
-	# For each row
-	for i, x in enumerate(columns[0]):
-		if not xmin is None and x < xmin:
-			pass
-		elif not xmax is None and x > xmax:
-			pass
-		else:
-			for j, element in enumerate(columns):
-				trimmed[j].append(element[i])
+    # Grab titles
+    if 'figureTitile' in settings  and settings['figureTitle']:
+        plt.title(settings['figureTitle'])
+    if 'xTitle' in settings  and settings['xTitle']:
+        axis.set_xlabel(settings['xTitle'])
+    if 'yTitle' in settings  and settings['yTitle']:
+        axis.set_ylabel(settings['yTitle'])
 
-	return trimmed
+    # Plot series
+    for file in file_data:
+        for series in file:
+            axis.plot(
+                series['x'], 
+                series['y'],
+                series['style'],
+                label=series['label']
+            )
 
+    # Build legend
+    if settings['legend']:
+        plt.legend()
 
+    # Build legend
+    if settings['grid']:
+        plt.grid(True)
+    
+    # If automatic border is set
+    x_lims = [settings['xMin'], settings['xMax']]
+    y_lims = [settings['yMin'], settings['yMax']]
 
-def plot(name, headings, columns, xmin, xmax):
-	# Trim data based on xlimits
-	columns = trim(xmin, xmax, columns)
+    if settings['flipX']:
+        x_lims = x_lims[::-1]
+    if settings['flipY']:
+        y_lims = y_lims[::-1]
 
-	
-	# Get a list of axes
-	graph_count = len(headings) - 1
-	for i in range(graph_count):
-
-
-		# Set up axis
-		fig, axis = plt.subplots(1, 1)
-		axis.set_xlabel(headings[0])
-		axis.set_ylabel(headings[i+1])
-
-		# Set up figure layout
-		plt.tight_layout()
-
-		# Render data
-		axis.plot(columns[0], columns[i+1], linestyle='-')
-
-
-
-		# Save figure & clear virtual canvas
-		plt.savefig(name + '-' + headings[0][:4] + '-' + headings[i+1][:4] + '.png')
-		plt.clf()
+    plt.xlim(x_lims)
+    plt.ylim(y_lims)
+  
+    plt.savefig(settings['outputFilename'])
+    plt.clf()
 
 
 
